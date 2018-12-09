@@ -23,9 +23,8 @@ class check {
             conn.setRequestMethod("GET");
             conn.connect();
             String url_type = new String(conn.getContentType());
-            String[] url_content = url_type.split("\\s");
-            // System.out.println(url_content[0]);
-            if (url_content[0].contains("text/html")) {
+            System.out.println(url_type);
+            if (url_type.contains("text/html")) {
                 return 1;
             }
         } catch (MalformedURLException e) {

@@ -1,11 +1,12 @@
-class hash {
-    class node {
-        String url;
-        int depth;
-        int isvisited;
+class node {
+    String url;
+    int depth;
+    int isvisited;
 
-        node next;
-    }
+    node next;
+}
+
+class hash {
 
     node head, end;
 
@@ -14,12 +15,12 @@ class hash {
         end = null;
     }
 
-    public void insert(String url, int d) {
+    public void insert(String url, int d, int v) {
         node n = new node();
         n.url = new String(url);
         n.next = null;
         n.depth = d;
-        n.isvisited = 0;
+        n.isvisited = v;
         if (head == null) {
             head = n;
             end = n;
@@ -31,9 +32,11 @@ class hash {
 
     public void print() {
         node ptr = head;
-        while (ptr != end) {
-            System.out.println(ptr.url);
+        int i = 0;
+        while (ptr != null) {
+            System.out.println(i + " d=" + ptr.depth + " v=" + ptr.isvisited + " " + ptr.url);
             ptr = ptr.next;
+            i++;
         }
         System.out.println("\n");
     }
@@ -55,6 +58,8 @@ class hash {
 }
 
 class hashable {
+    int d = 0;
+
     hash[] link(hash[] arr) {
         int i, j;
         for (i = 0; i < arr.length - 1; i++) {
@@ -70,12 +75,28 @@ class hashable {
         return arr;
     }
 
-    public hash[] set(hash[] arr, String[] list, int d) {
-        for (int i = 0; i < list.length; i++) {
-            int index = list[i].length() % 100;
+    public String get_next_url(hash[] arr, int dp) {
+        node ptr = arr[0].head;
+        while (ptr != null) {
+            if (ptr.isvisited == 0 && ptr.depth <= dp) {
+                ptr.isvisited = 1;
+                return ptr.url;
+            }
+            ptr = ptr.next;
+        }
+        return "-1";
+    }
+
+    public hash[] set(hash[] arr, String[] list) {
+        int index = list[0].length() % 100;
+        if (arr[index].check(list[0]) == 0) {
+            arr[index].insert(list[0], d, 1);
+        }
+        for (int i = 1; i < list.length; i++) {
+            index = list[i].length() % 100;
             // System.out.println(list[i] + " " + arr[index].check(list[i]));
             if (arr[index].check(list[i]) == 0) {
-                arr[index].insert(list[i], d);
+                arr[index].insert(list[i], d + 1, 0);
             }
         }
         arr = link(arr);

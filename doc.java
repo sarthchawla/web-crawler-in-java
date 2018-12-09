@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 class doc {
+
     String get_in_string(String url) {
         String str = new String();
         try {
@@ -33,14 +34,18 @@ class doc {
 
     String[] get_in_array(String str, String b_url) {
         ArrayList<String> br = new ArrayList<>();
+        br.add(b_url);
         check c = new check();
         int i;
         Document doc = Jsoup.parse(str);
         Elements links = doc.select("a[href]");
         for (Element link : links) {
             String url = new String(link.attr("abs:href"));
-            if (url.length() > 1 && url.contains(b_url) && !br.contains(url)) {
-                br.add(url);
+            if (url.length() > b_url.length()) {
+                String upToNCharacters = url.substring(0, b_url.length());
+                if (upToNCharacters.contains(b_url) && !br.contains(url)) {
+                    br.add(url);
+                }
             }
         }
         return br.toArray(new String[0]);
