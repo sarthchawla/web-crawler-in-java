@@ -5,6 +5,11 @@ class load {
 
     public static void main(String[] args) {
         load ld = new load();
+        hashable h = new hashable();
+        hash[] my_hash = new hash[100];
+        for (int i = 0; i < my_hash.length; i++) {
+            my_hash[i] = new hash();
+        }
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter url, directory and depth");
         String url = sc.next();
@@ -20,11 +25,13 @@ class load {
         if (url_flag == 1 && dir_flag == 1 && depth_flag == 1) {
             html = my_doc.get_in_string(url);
         }
-        System.out.println(html);
+        // System.out.println(html);
         ld.fno = my_doc.write_to_file(html, dir, ld.fno);
         String arr[] = my_doc.get_in_array(html, url);
-        for (int i = 0; i < arr.length; i++) {
-            System.out.println(i + " " + arr[i]);
+        my_hash = h.set(my_hash, arr, 1);
+        for (int i = 0; i < my_hash.length; i++) {
+            System.out.println(i);
+            my_hash[i].print();
         }
         sc.close();
     }

@@ -24,7 +24,7 @@ class check {
             conn.connect();
             String url_type = new String(conn.getContentType());
             String[] url_content = url_type.split("\\s");
-            System.out.println(url_content[0]);
+            // System.out.println(url_content[0]);
             if (url_content[0].contains("text/html")) {
                 return 1;
             }
